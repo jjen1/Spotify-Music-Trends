@@ -1,47 +1,47 @@
 CREATE DATABASE spotify;
 
 CREATE TABLE artist_info(
-    id VARCHAR(150),
-    name VARCHAR(100),
+    artist_id VARCHAR(250),
+    name VARCHAR(550),
     followers INT,
     popularity NUMERIC,
-    genre_1 VARCHAR(50),
-    genre_2 VARCHAR(50),
-    genre_3 VARCHAR(50),
-    PRIMARY KEY(id)
+    genre_1 VARCHAR(200),
+    genre_2 VARCHAR(200),
+    genre_3 VARCHAR(200),
+    PRIMARY KEY(artist_id)
 );
 
 CREATE TABLE album(
-    id VARCHAR(150),
-    name VARCHAR(100),
-    type VARCHAR(50),
-    label VARCHAR,
+    id VARCHAR(250),
+    name VARCHAR(550),
+    type VARCHAR(300),
+    label VARCHAR(200),
     total_tracks INT,
     popularity NUMERIC,
     release_date TIMESTAMPTZ,
-    artist_id VARCHAR(150),
+    artist_id VARCHAR(250),
     PRIMARY KEY(id),
-    FOREIGN KEY(artist_id) REFERENCES artist_info(id)
+    FOREIGN KEY(artist_id) REFERENCES artist_info(artist_id)
 );
 
 CREATE TABLE track(
-    id VARCHAR(150),
-    name VARCHAR(100),
+    id VARCHAR(250),
+    name VARCHAR(550),
     track_number INT,
     total_tracks INT,
     popularity NUMERIC,
     duration_sec INT,
-    explicit VARCHAR (10),
-    album_id VARCHAR(150),
-    artist_id VARCHAR(150),
+    explicit VARCHAR (50),
+    album_id VARCHAR(250),
+    artist_id VARCHAR(250),
     PRIMARY KEY(id),
     FOREIGN KEY(album_id) REFERENCES album(id),
-    FOREIGN KEY(artist_id) REFERENCES artist_info(id)
+    FOREIGN KEY(artist_id) REFERENCES artist_info(artist_id)
 );
 
 CREATE TABLE track_feature(
     feature_id SERIAL,
-    track_id VARCHAR(150),
+    track_id VARCHAR(250),
     danceability NUMERIC,
     energy NUMERIC,
     loudness NUMERIC,
@@ -52,3 +52,4 @@ CREATE TABLE track_feature(
     PRIMARY KEY(feature_id),
     FOREIGN KEY(track_id) REFERENCES track(id)
 );
+
