@@ -30,7 +30,7 @@ CREATE TABLE track(
     track_number INT,
     total_tracks INT,
     popularity NUMERIC,
-    duration_sec INT,
+    duration_sec NUMERIC,
     explicit VARCHAR (50),
     album_id VARCHAR(250),
     artist_id VARCHAR(250),
