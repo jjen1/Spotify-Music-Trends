@@ -1,0 +1,28 @@
+Analysis:
+1. Which albums/singles did well and what labels were they under?:
+
+select 
+	a.name as album_name, 
+	a.type as album_type, 
+	a.label, 
+	a.release_date, 
+	ai.name as artist_name,
+	ai.followers,
+	ai.popularity as artist_popularity,
+	ai.genre_1,
+	ai.genre_2,
+	ai.genre_3,
+	t.name as track_name,
+	t.popularity as track_popularity,
+	a.popularity as album_popularity,
+	t.track_number, 
+	a.total_tracks as album_total_tracks, 
+	t.duration_sec as track_duration,
+	t.explicit
+from album a
+join track t
+	on a.album_id = t.album_id
+	and a.artist_id = t.artist_id
+join artist_info ai
+	on ai.artist_id = t.artist_id
+	and ai.artist_id = a.artist_id
