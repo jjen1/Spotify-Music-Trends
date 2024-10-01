@@ -1,0 +1,57 @@
+-- 1. Which albums/singles did well and what labels were they under?:
+
+WITH ranked_albums AS(
+	SELECT 
+		a.name AS album_name, 
+		a.label,
+		a.popularity AS album_popularity,
+		a.album_id,
+		ai.artist_id,
+		ai.name as artist_name,
+		ai.popularity AS artist_popularity,
+		DENSE_RANK() OVER(ORDER BY a.popularity DESC) AS album_rank
+	FROM album a
+	LEFT JOIN artist_info ai
+		ON ai.artist_id = a.artist_id
+),
+top_ten_labels AS(
+	SELECT *
+	FROM ranked_albums
+	WHERE album_rank <= 10
+	ORDER BY album_popularity DESC, artist_popularity DESC
+)
+SELECT DISTINCT label
+FROM top_ten_labels;
+
+
+-- 2. Knowing the popular labels, what are the top artists from those labels?:
+
+WITH ranked_albums AS(
+	SELECT 
+		a.name AS album_name, 
+		a.label,
+		a.popularity AS album_popularity,
+		a.album_id,
+		ai.artist_id,
+		ai.name as artist_name,
+		ai.popularity AS artist_popularity,
+		DENSE_RANK() OVER(ORDER BY a.popularity DESC) AS album_rank
+	FROM album a
+	LEFT JOIN artist_info ai
+		ON ai.artist_id = a.artist_id
+),
+top_ten_labels AS(
+	SELECT *
+	FROM ranked_albums
+	WHERE album_rank <= 10
+	ORDER BY album_popularity DESC, artist_popularity DESC
+)
+SELECT DISTINCT ai.name AS artist_name
+FROM artist_info ai
+WHERE ai.artist_id IN (
+    SELECT DISTINCT artist_id
+    FROM album a
+    WHERE a.label IN (SELECT label FROM top_ten_labels) 
+);
+
+
