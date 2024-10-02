@@ -54,4 +54,54 @@ WHERE ai.artist_id IN (
     WHERE a.label IN (SELECT label FROM top_ten_labels) 
 );
 
+-- 3. For the tracks that did well, what genre do the artists generally lie under?
+WITH top_tracks AS(
+	SELECT 
+		DENSE_RANK() OVER(ORDER BY a.popularity DESC) AS album_rank,
+		a.name AS album_name, 
+		a.album_id,
+		a.label,
+		a.popularity AS album_popularity,
+		a.type,
+		a.total_tracks,
+		ai.artist_id,
+		ai.name as artist_name,
+		ai.genre_1,
+		ai.genre_2,
+		ai.genre_3,
+		ai.popularity AS artist_popularity,
+		t.track_id,
+		t.name AS track_name,
+		t.track_number,
+		t.popularity AS track_popularity,
+		t.duration_sec,
+		t.explicit
+	FROM album a
+	LEFT JOIN artist_info ai
+		ON ai.artist_id = a.artist_id
+	LEFT JOIN track t
+		ON a.album_id = t.album_id
+		AND a.artist_id = t.artist_id
+),
+genre_selection AS(
+	SELECT 
+		genre_1,
+		genre_2,
+		genre_3
+	FROM top_tracks
+	WHERE (track_popularity IS NOT NULL AND track_popularity >=50)
+		AND (genre_1 IS NOT NULL OR genre_2 IS NOT NULL OR genre_3 IS NOT NULL)
+)
+SELECT genre, COUNT(*) AS track_count
+FROM(
+	SELECT genre_1 AS genre FROM genre_selection
+	UNION ALL
+	SELECT genre_2 AS genre FROM genre_selection
+	UNION ALL
+	SELECT genre_3 AS genre FROM genre_selection
+) AS all_genre
+WHERE genre IS NOT NULL
+GROUP BY genre
+ORDER BY track_count DESC;
+
 
