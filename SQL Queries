@@ -55,6 +55,7 @@ WHERE ai.artist_id IN (
 );
 
 -- 3. For the tracks that did well, what genre do the artists generally lie under?
+
 WITH top_tracks AS(
 	SELECT 
 		DENSE_RANK() OVER(ORDER BY a.popularity DESC) AS album_rank,
