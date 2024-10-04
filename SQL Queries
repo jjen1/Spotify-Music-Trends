@@ -144,7 +144,9 @@ album_tracks AS(
 )
 SELECT 
 	album_name, 
-	track_name
+	track_name,
+	track_number,
+	total_tracks
 FROM album_tracks
 WHERE track_rank = 1
 
