@@ -1,0 +1,101 @@
+-- 5. Is there a correlation between track features and track popularity?
+
+WITH track_info AS (
+    SELECT 
+        t.track_id,
+        a.name AS album_name,
+        ai.name AS artist_name,
+        t.popularity AS track_popularity,
+        tf.danceability,
+        tf.energy,
+        tf.loudness,
+        tf.speechiness,
+        tf.acousticness,
+        tf.valence,
+        tf.tempo
+    FROM track t
+    LEFT JOIN track_feature tf ON t.track_id = tf.track_id
+    LEFT JOIN album a ON a.album_id = t.album_id AND a.artist_id = t.artist_id
+    LEFT JOIN artist_info ai ON ai.artist_id = a.artist_id
+    WHERE t.popularity IS NOT NULL AND a.popularity IS NOT NULL
+),
+correlation_results AS (
+    SELECT
+        ROUND(CORR(danceability, track_popularity)::numeric, 2) AS danceability_corr,
+        ROUND(CORR(energy, track_popularity)::numeric, 2) AS energy_corr,
+        ROUND(CORR(loudness, track_popularity)::numeric, 2) AS loudness_corr,
+        ROUND(CORR(speechiness, track_popularity)::numeric, 2) AS speechiness_corr,
+        ROUND(CORR(acousticness, track_popularity)::numeric, 2) AS acousticness_corr,
+        ROUND(CORR(valence, track_popularity)::numeric, 2) AS valence_corr,
+        ROUND(CORR(tempo, track_popularity)::numeric, 2) AS tempo_corr
+    FROM track_info
+    WHERE 
+		danceability IS NOT NULL 
+        AND energy IS NOT NULL 
+        AND loudness IS NOT NULL
+        AND speechiness IS NOT NULL 
+        AND acousticness IS NOT NULL 
+        AND valence IS NOT NULL 
+        AND tempo IS NOT NULL 
+        AND track_popularity IS NOT NULL
+)
+SELECT * FROM correlation_results;
+
+-- 6. Is there a correlation between track features and album popularity?
+
+WITH track_feature_aggregations AS (
+    SELECT 
+        a.name AS album_name,
+        ai.name AS artist_name,
+        t.name AS track_name,
+        a.popularity AS album_popularity,
+        ai.popularity AS artist_popularity,
+        t.popularity AS track_popularity,
+        tf.danceability,
+        ROUND(AVG(tf.danceability) OVER(PARTITION BY t.album_id), 3) AS average_danceability,
+        tf.energy,
+        ROUND(AVG(tf.energy) OVER(PARTITION BY t.album_id), 3) AS average_energy,
+        tf.loudness,
+        ROUND(AVG(tf.loudness) OVER(PARTITION BY t.album_id), 3) AS average_loudness,
+        tf.speechiness,
+        ROUND(AVG(tf.speechiness) OVER(PARTITION BY t.album_id), 3) AS average_speechiness,
+        tf.acousticness,
+        ROUND(AVG(tf.acousticness) OVER(PARTITION BY t.album_id), 3) AS average_acousticness,
+        tf.valence,
+        ROUND(AVG(tf.valence) OVER(PARTITION BY t.album_id), 3) AS average_valence,
+        tf.tempo,
+        ROUND(AVG(tf.tempo) OVER(PARTITION BY t.album_id), 3) AS average_tempo,
+        ROUND((t.duration_sec / 60), 2) AS track_duration_mins,
+        ROUND(((SUM(t.duration_sec) OVER(PARTITION BY t.album_id)) / 60), 2) AS album_duration_mins,
+        t.track_number,
+        a.total_tracks,
+        t.album_id,
+        t.artist_id,
+        t.track_id
+    FROM track t
+    LEFT JOIN track_feature tf ON t.track_id = tf.track_id
+    LEFT JOIN album a ON a.album_id = t.album_id AND a.artist_id = t.artist_id
+    LEFT JOIN artist_info ai ON ai.artist_id = a.artist_id
+    WHERE a.popularity IS NOT NULL AND t.popularity IS NOT NULL
+),
+album_feature_correlation AS (
+    SELECT
+        ROUND(CORR(average_danceability, album_popularity)::numeric, 2) AS danceability_corr,
+        ROUND(CORR(average_energy, album_popularity)::numeric, 2) AS energy_corr,
+        ROUND(CORR(average_loudness, album_popularity)::numeric, 2) AS loudness_corr,
+        ROUND(CORR(average_speechiness, album_popularity)::numeric, 2) AS speechiness_corr,
+        ROUND(CORR(average_acousticness, album_popularity)::numeric, 2) AS acousticness_corr,
+        ROUND(CORR(average_valence, album_popularity)::numeric, 2) AS valence_corr,
+        ROUND(CORR(average_tempo, album_popularity)::numeric, 2) AS tempo_corr
+    FROM track_feature_aggregations
+    WHERE 
+        average_danceability IS NOT NULL AND
+        average_energy IS NOT NULL AND
+        average_loudness IS NOT NULL AND
+        average_speechiness IS NOT NULL AND
+        average_acousticness IS NOT NULL AND
+        average_valence IS NOT NULL AND
+        average_tempo IS NOT NULL AND
+        album_popularity IS NOT NULL
+)
+SELECT * FROM album_feature_correlation;
