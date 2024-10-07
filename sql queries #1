@@ -97,7 +97,10 @@ WITH ranked_album AS(
 		t.popularity AS track_popularity,
 		t.track_number,
 		a.total_tracks,
-		ai.name AS artist_name
+		FLOOR(t.duration_sec / 60) AS track_minutes,  
+        ROUND((t.duration_sec % 60),0) AS track_seconds, 
+		ai.name AS artist_name,
+		t.explicit
 	FROM album a
 	LEFT JOIN artist_info ai
 		ON ai.artist_id = a.artist_id
@@ -118,7 +121,9 @@ popular_album_track AS(
 		artist_name,
 		track_name,
 		track_number,
-		total_tracks
+		total_tracks,
+		CONCAT(track_minutes, ':', track_seconds) AS track_duration,
+		explicit
 	FROM album_tracks
 	WHERE track_rank = 1
 )
