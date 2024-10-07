@@ -2,20 +2,20 @@
 
 ## Overview
 
-This mini project focuses on analyzing music trends on Spotify for the year 2023. The goal is to identify top artists, tracks, and albums based on data collected from a Kaggle dataset. Through this project, I practiced my skills in data cleaning, management, and SQL querying to derive meaningful insights from the data.
+Welcome to my mini project focused on analyzing music trends on Spotify for 2023! The main goal here is to identify the top artists, tracks, and albums using a dataset from Kaggle. This project has been a great way for me to practice my skills in data cleaning, management, and SQL querying, all while exploring the fascinating world of music trends.
 
 ## Dataset
 
-The dataset used in this project was sourced from Kaggle. While I've uploaded my cleaned versions of the CSV files, you can find the original datasets with the following link:
+The dataset I used is sourced from Kaggle. I’ve uploaded my cleaned versions of the CSV files for your convenience. If you’re interested in the original datasets, you can find them here:
 
 [Kaggle Dataset](https://www.kaggle.com/datasets/tonygordonjr/spotify-dataset-2023)  
 
 ## Features
 
-- **Data Cleaning**: Processed raw data in Excel to remove inconsistencies and improve organization.
-- **Database Management**: Created a structured database in PostgreSQL to store and query the cleaned data.
-- **SQL Querying**: Performed various SQL queries to analyze music trends and generate reports on top artists, tracks, and albums.
-- **Data Visualization**: Visualized trends using tools available in Excel or any preferred visualization software.
+- **Data Cleaning**: I cleaned up the raw data in Excel, removing inconsistencies and organizing it for easier analysis.
+- **Database Management**: I set up a structured PostgreSQL database to store the cleaned data and facilitate efficient querying.
+- **SQL Querying**: I conducted various SQL queries to analyze music trends, helping to uncover insights about top artists, tracks, and albums.
+- **Data Visualization**: I created visual representations of the data trends using Excel and other tools to enhance understanding.
 
 ## Technologies Used
 
@@ -24,9 +24,4 @@ The dataset used in this project was sourced from Kaggle. While I've uploaded my
 - **Development Environment**: Visual Studio Code (VSCode)
 - **Database Visualization**: Lucid.co
 
-### Prerequisites
-
-- PostgreSQL Installed
-- VSCode Installed
-- Microsoft Excel
 
