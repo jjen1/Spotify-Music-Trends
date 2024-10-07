@@ -118,7 +118,7 @@ WITH album_info AS (
     LEFT JOIN track t ON a.album_id = t.album_id AND a.artist_id = t.artist_id
     LEFT JOIN artist_info ai ON ai.artist_id = a.artist_id
 ),
-album_track_info AS (
+album_track AS (
     SELECT 
         album_name,
         artist_name,
@@ -133,16 +133,19 @@ album_track_info AS (
         ROUND((AVG(duration_sec) % 60.0), 0) AS avg_track_duration_seconds
     FROM album_info
     GROUP BY album_id, album_name, artist_name, total_tracks
+),
+album_track_info AS(
+	SELECT 
+	    album_name,
+	    artist_name,
+	    total_tracks,
+	    CONCAT(album_duration_minutes, ':', album_duration_seconds) AS album_duration,
+	    CONCAT(min_track_duration_minutes, ':', min_track_duration_seconds) AS min_track_duration,
+	    CONCAT(max_track_duration_minutes, ':', max_track_duration_seconds) AS max_track_duration,
+	    CONCAT(avg_track_duration_minutes, ':', avg_track_duration_seconds) AS avg_track_duration
+	FROM album_track
 )
-SELECT 
-    album_name,
-    artist_name,
-	total_tracks,
-    CONCAT(album_duration_minutes, ':', album_duration_seconds) AS album_duration,
-    CONCAT(min_track_duration_minutes, ':', min_track_duration_seconds) AS min_track_duration,
-    CONCAT(max_track_duration_minutes, ':', max_track_duration_seconds) AS max_track_duration,
-    CONCAT(avg_track_duration_minutes, ':', avg_track_duration_seconds) AS avg_track_duration
-FROM album_track_info;
+SELECT * FROM album_track_info;
 
 -- 8. What are the frequent release dates of songs that end up being popular? 
 
