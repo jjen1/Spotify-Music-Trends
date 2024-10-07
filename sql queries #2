@@ -122,14 +122,26 @@ album_track_info AS (
     SELECT 
         album_name,
         artist_name,
-        ROUND(SUM(duration_sec) / 60.0, 2) AS album_duration_mins,
-        ROUND(MIN(duration_sec) / 60.0, 2) AS min_track_duration,
-        ROUND(MAX(duration_sec) / 60.0, 2) AS max_track_duration,
-        ROUND(AVG(duration_sec) / 60.0, 2) AS avg_track_mins
+		total_tracks,
+        FLOOR(SUM(duration_sec) / 60.0) AS album_duration_minutes,
+        ROUND((SUM(duration_sec) % 60.0),0) AS album_duration_seconds,
+        FLOOR(MIN(duration_sec) / 60.0) AS min_track_duration_minutes,
+        ROUND((MIN(duration_sec) % 60.0),0) AS min_track_duration_seconds,
+        FLOOR(MAX(duration_sec) / 60.0) AS max_track_duration_minutes,
+        ROUND((MAX(duration_sec) % 60.0),0) AS max_track_duration_seconds,
+        FLOOR(AVG(duration_sec) / 60.0) AS avg_track_duration_minutes,
+        ROUND((AVG(duration_sec) % 60.0), 0) AS avg_track_duration_seconds
     FROM album_info
-    GROUP BY album_id, album_name, artist_name
+    GROUP BY album_id, album_name, artist_name, total_tracks
 )
-SELECT *
+SELECT 
+    album_name,
+    artist_name,
+	total_tracks,
+    CONCAT(album_duration_minutes, ':', album_duration_seconds) AS album_duration,
+    CONCAT(min_track_duration_minutes, ':', min_track_duration_seconds) AS min_track_duration,
+    CONCAT(max_track_duration_minutes, ':', max_track_duration_seconds) AS max_track_duration,
+    CONCAT(avg_track_duration_minutes, ':', avg_track_duration_seconds) AS avg_track_duration
 FROM album_track_info;
 
 -- 8. What are the frequent release dates of songs that end up being popular? 
