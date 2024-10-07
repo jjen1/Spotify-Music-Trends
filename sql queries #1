@@ -98,7 +98,7 @@ WITH ranked_album AS(
 		t.track_number,
 		a.total_tracks,
 		FLOOR(t.duration_sec / 60) AS track_minutes,  
-        ROUND((t.duration_sec % 60),0) AS track_seconds, 
+        	ROUND((t.duration_sec % 60),0) AS track_seconds, 
 		ai.name AS artist_name,
 		t.explicit
 	FROM album a
