@@ -10,6 +10,10 @@ The dataset I used is sourced from Kaggle. I’ve uploaded my cleaned versions o
 
 [Kaggle Dataset](https://www.kaggle.com/datasets/tonygordonjr/spotify-dataset-2023)  
 
+## Findings
+
+I uploaded my queries labeled 'sql queries #1' and 'sql queries #2', additionally, an excel workbook of the results that came out of my queries labeled 'spotify_results'. 
+
 ## Features
 
 - **Data Cleaning**: I cleaned up the raw data in Excel, removing inconsistencies and organizing it for easier analysis.
