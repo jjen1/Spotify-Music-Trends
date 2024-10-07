@@ -45,14 +45,16 @@ top_ten_labels AS(
 	FROM ranked_albums
 	WHERE album_rank <= 10
 	ORDER BY album_popularity DESC, artist_popularity DESC
+),
+artist_selection AS(
+	SELECT DISTINCT ai.name AS artist_name
+	FROM artist_info ai
+	WHERE ai.artist_id IN (
+	    SELECT DISTINCT artist_id
+	    FROM album a
+	    WHERE a.label IN (SELECT label FROM top_ten_labels) 
 )
-SELECT DISTINCT ai.name AS artist_name
-FROM artist_info ai
-WHERE ai.artist_id IN (
-    SELECT DISTINCT artist_id
-    FROM album a
-    WHERE a.label IN (SELECT label FROM top_ten_labels) 
-);
+SELECT * FROM artist_selection;
 
 -- 3. For the tracks that did well, what genre do the artists generally lie under?
 
@@ -92,18 +94,21 @@ genre_selection AS(
 	FROM top_tracks
 	WHERE (track_popularity IS NOT NULL AND track_popularity >=50)
 		AND (genre_1 IS NOT NULL OR genre_2 IS NOT NULL OR genre_3 IS NOT NULL)
+),
+genre_results AS(
+	SELECT genre, COUNT(*) AS track_count
+	FROM(
+		SELECT genre_1 AS genre FROM genre_selection
+		UNION ALL
+		SELECT genre_2 AS genre FROM genre_selection
+		UNION ALL
+		SELECT genre_3 AS genre FROM genre_selection
+	) AS all_genre
+	WHERE genre IS NOT NULL
+	GROUP BY genre
+	ORDER BY track_count DESC
 )
-SELECT genre, COUNT(*) AS track_count
-FROM(
-	SELECT genre_1 AS genre FROM genre_selection
-	UNION ALL
-	SELECT genre_2 AS genre FROM genre_selection
-	UNION ALL
-	SELECT genre_3 AS genre FROM genre_selection
-) AS all_genre
-WHERE genre IS NOT NULL
-GROUP BY genre
-ORDER BY track_count DESC;
+SELECT * FROM genre_results;
 
 -- 4. Which track was the most popular from each album?
 
@@ -141,12 +146,15 @@ album_tracks AS(
 	FROM ranked_album
 	WHERE type = 'album'
 	ORDER BY album_rank, track_rank 
+),
+popular_album_track AS(
+	SELECT 
+		album_name, 
+		track_name,
+		track_number,
+		total_tracks
+	FROM album_tracks
+	WHERE track_rank = 1
 )
-SELECT 
-	album_name, 
-	track_name,
-	track_number,
-	total_tracks
-FROM album_tracks
-WHERE track_rank = 1
+SELECT * FROM popular_album_track
 
