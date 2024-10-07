@@ -12,45 +12,38 @@ WITH ranked_albums AS (
 top_labels AS(
 	SELECT DISTINCT label
 	FROM ranked_albums
-	WHERE album_rank <= 10
+	WHERE album_rank <= 50
 )
 SELECT * FROM top_labels;
 
 
 -- 2. What are the top artists from those labels?:
 
-WITH ranked_albums AS(
-	SELECT 
-		a.name AS album_name, 
-		a.label,
-		a.popularity AS album_popularity,
-		a.album_id,
-		ai.artist_id,
-		ai.name as artist_name,
-		ai.popularity AS artist_popularity,
-		DENSE_RANK() OVER(ORDER BY a.popularity DESC) AS album_rank
-	FROM album a
-	LEFT JOIN artist_info ai
-		ON ai.artist_id = a.artist_id
+WITH ranked_albums AS (
+    SELECT 
+        a.name AS album_name, 
+        a.label,
+        a.popularity AS album_popularity,
+        ai.artist_id,
+        ai.name AS artist_name,
+        ai.popularity AS artist_popularity,
+        DENSE_RANK() OVER(ORDER BY a.popularity DESC) AS album_rank
+    FROM album a
+    LEFT JOIN artist_info ai ON ai.artist_id = a.artist_id
 ),
-top_labels AS(
-	SELECT *
-	FROM ranked_albums
-	WHERE album_rank <= 10
-	ORDER BY album_popularity DESC, artist_popularity DESC
+top_labels AS (
+    SELECT DISTINCT label
+    FROM ranked_albums
+    WHERE album_rank <= 50
 ),
-top_artists AS(
-	SELECT DISTINCT ai.name AS artist_name, a.label
-	FROM artist_info ai
-	LEFT JOIN album a 
-		ON ai.artist_id = a.artist_id
-	WHERE ai.artist_id IN (
-	    SELECT DISTINCT artist_id
-	    FROM album a
-	    WHERE a.label IN (SELECT label FROM top_labels) 
-	)
+top_artists AS (
+    SELECT DISTINCT ai.name AS artist_name, a.label
+    FROM artist_info ai
+    JOIN album a ON ai.artist_id = a.artist_id
+    WHERE a.label IN (SELECT label FROM top_labels)
 )
-SELECT * FROM top_artists
+SELECT artist_name, label
+FROM top_artists
 ORDER BY label;
 
 -- 3. For the tracks that did well, what genre do the artists generally lie under?
