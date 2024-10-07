@@ -99,3 +99,36 @@ album_feature_correlation AS (
         album_popularity IS NOT NULL
 )
 SELECT * FROM album_feature_correlation;
+
+-- 6. Finding track & album durations information
+
+WITH album_info AS (
+    SELECT 
+        a.album_id,
+        ai.artist_id,
+        a.name AS album_name,
+        t.name AS track_name,
+        ai.name AS artist_name,
+        t.duration_sec,
+        t.total_tracks,
+        ai.genre_1,
+        ai.genre_2,
+        ai.genre_3
+    FROM album a
+    LEFT JOIN track t ON a.album_id = t.album_id AND a.artist_id = t.artist_id
+    LEFT JOIN artist_info ai ON ai.artist_id = a.artist_id
+),
+album_track_info AS (
+    SELECT 
+        album_name,
+        artist_name,
+        ROUND(SUM(duration_sec) / 60.0, 2) AS album_duration_mins,
+        ROUND(MIN(duration_sec) / 60.0, 2) AS min_track_duration,
+        ROUND(MAX(duration_sec) / 60.0, 2) AS max_track_duration,
+        ROUND(AVG(duration_sec) / 60.0, 2) AS avg_track_mins
+    FROM album_info
+    GROUP BY album_id, album_name, artist_name
+)
+SELECT *
+FROM album_track_info;
+
