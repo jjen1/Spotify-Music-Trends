@@ -100,7 +100,7 @@ album_feature_correlation AS (
 )
 SELECT * FROM album_feature_correlation;
 
--- 6. Finding track & album durations information
+-- 7. Finding track & album durations information
 
 WITH album_info AS (
     SELECT 
