@@ -42,7 +42,7 @@ top_artists AS (
     JOIN album a ON ai.artist_id = a.artist_id
     WHERE a.label IN (SELECT label FROM top_labels)
 )
-SELECT artist_name, label
+SELECT artist_name, label, COUNT(label) OVER(PARTITION BY label) AS label_count
 FROM top_artists
 ORDER BY label;
 
