@@ -24,17 +24,17 @@ The dataset used is sourced from Kaggle: [Spotify Dataset 2023](https://www.kagg
   - What labels are associated with the most successful albums and singles?
   - Who are the top artists signed to those labels?
 
-- Genre Insights
+## Genre Insights
   - What genres dominate among high-performing tracks?
   - Do specific genres trend more frequently in top charts?
 
-- Track & Album Popularity
+## Track & Album Popularity
   - Which track was the most popular from each album?
   - Is there a correlation between track-level features (e.g., tempo, energy, valence) and:
     - Track popularity?
     - Album popularity?
 
-- Duration & Release Timing
+## Duration & Release Timing
   - What are the average durations of popular tracks and albums?
   - Are there specific release periods (months/seasons) when popular songs are more likely to drop?
 
