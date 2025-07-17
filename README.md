@@ -1,31 +1,47 @@
-# Spotify 2023 Trends Analysis
+# Spotify 2023 Music Trends 
+**Analyzing Top Artists, Tracks, and Albums Using SQL and PostgreSQL**
 
 ## Overview
 
-Welcome to my mini project focused on analyzing music trends on Spotify for 2023! The main goal here is to identify the top artists, tracks, and albums using a dataset from Kaggle. This project has been a great way for me to practice my skills in data cleaning, management, and SQL querying, all while exploring the fascinating world of music trends.
+This mini project explores music trends on Spotify in 2023 using a dataset from Kaggle. The primary objective is to identify the **top-performing artists, tracks, and albums**, while practicing core data skills such as data cleaning, relational modeling, and SQL querying.
+
+Through structured exploration and analysis, the project also investigates correlations between track features (e.g., danceability, energy) and their popularity.
 
 ## Dataset
 
-The dataset I used is sourced from Kaggle. I’ve uploaded my cleaned versions of the CSV files for your convenience. If you’re interested in the original datasets, you can find them here:
+The dataset used is sourced from Kaggle: [Spotify Dataset 2023](https://www.kaggle.com/datasets/tonygordonjr/spotify-dataset-2023)
+- The raw data was cleaned and transformed using Microsoft Excel.
+- Cleaned `.csv` files were imported into a **PostgreSQL** database for querying, they're uploaded for convenience.
 
-[Kaggle Dataset](https://www.kaggle.com/datasets/tonygordonjr/spotify-dataset-2023)  
+## Key Deliverables
+- **SQL Scripts**:  
+  - `sql_queries_1.sql`  
+  - `sql_queries_2.sql`  
+- **Results Workbook**:  
+  - `spotify_results.xlsx` — contains the output of all major queries and visualizations.
 
-## Findings
+## Label Analysis
+  - What labels are associated with the most successful albums and singles?
+  - Who are the top artists signed to those labels?
 
-I uploaded my queries labeled 'sql queries #1' and 'sql queries #2', additionally, an excel workbook of the results that came out of my queries labeled 'spotify_results'. 
+- Genre Insights
+  - What genres dominate among high-performing tracks?
+  - Do specific genres trend more frequently in top charts?
 
-## Features
+- Track & Album Popularity
+  - Which track was the most popular from each album?
+  - Is there a correlation between track-level features (e.g., tempo, energy, valence) and:
+    - Track popularity?
+    - Album popularity?
 
-- **Data Cleaning**: I cleaned up the raw data in Excel, removing inconsistencies and organizing it for easier analysis.
-- **Database Management**: I set up a structured PostgreSQL database to store the cleaned data and facilitate efficient querying.
-- **SQL Querying**: I conducted various SQL queries to analyze music trends, helping to uncover insights about top artists, tracks, and albums.
-- **Data Visualization**: I created visual representations of the data trends using Excel and other tools to enhance understanding.
+- Duration & Release Timing
+  - What are the average durations of popular tracks and albums?
+  - Are there specific release periods (months/seasons) when popular songs are more likely to drop?
 
-## Technologies Used
+## Tech Stack
 
-- **Database**: PostgreSQL
-- **Data Cleaning**: Microsoft Excel
-- **Development Environment**: Visual Studio Code (VSCode)
-- **Database Visualization**: Lucid.co
-
-
+- **Database**: PostgreSQL  
+- **Data Cleaning**: Microsoft Excel  
+- **Querying & Analysis**: SQL  
+- **Development Environment**: Visual Studio Code (VSCode)  
+- **Visualization Tools**: Lucid.co, Excel
