@@ -56,14 +56,14 @@ CREATE TABLE track_feature(
 );
 
 —- artist_info table insert
-\copy artist_info(artist_id, name, followers, popularity, genre_1, genre_2, genre_3) FROM '/Users/jennyli/Desktop/Projects/spotify/spotify_artist_info.csv' DELIMITER ',' CSV HEADER;
+\copy artist_info(artist_id, name, followers, popularity, genre_1, genre_2, genre_3) FROM '/Users/insert_directory/spotify_album_updated.csv' DELIMITER ',' CSV HEADER;
 
 —- album table insert
-\copy album(album_id, name, type, label, total_tracks, popularity, release_date, artist_id) FROM '/Users/jennyli/Desktop/Projects/spotify/spotify_album_updated.csv' DELIMITER ',' CSV HEADER;
+\copy album(album_id, name, type, label, total_tracks, popularity, release_date, artist_id) FROM '/Users/insert_directory/spotify_album_updated.csv' DELIMITER ',' CSV HEADER;
 
 —- track table insert
-\copy track(track_id, name, track_number, total_tracks, popularity, duration_sec, explicit, album_id, artist_id) FROM '/Users/jennyli/Desktop/Projects/spotify/spotify_track.csv' DELIMITER ',' CSV HEADER;
+\copy track(track_id, name, track_number, total_tracks, popularity, duration_sec, explicit, album_id, artist_id) FROM '/Users/insert_directory/spotify_track.csv' DELIMITER ',' CSV HEADER;
 
 —- track_feature table insert
-\copy track_feature(track_id, danceability, energy, loudness, speechiness, acousticness, valence, tempo) FROM '/Users/jennyli/Desktop/Projects/spotify/spotify_track_features.csv' DELIMITER ',' CSV HEADER;
+\copy track_feature(track_id, danceability, energy, loudness, speechiness, acousticness, valence, tempo) FROM '/Users/insert_directory/spotify_track_features.csv' DELIMITER ',' CSV HEADER;
 
