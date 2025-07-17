@@ -1,4 +1,4 @@
-# Spotify 2023 Music Trends 
+# Spotify Data 2023 Music Trends 
 **Analyzing Top Artists, Tracks, and Albums Using SQL and PostgreSQL**
 
 ## Overview
@@ -43,5 +43,3 @@ The dataset used is sourced from Kaggle: [Spotify Dataset 2023](https://www.kagg
 - **Database**: PostgreSQL  
 - **Data Cleaning**: Microsoft Excel  
 - **Querying & Analysis**: SQL  
-- **Development Environment**: Visual Studio Code (VSCode)  
-- **Visualization Tools**: Lucid.co, Excel
